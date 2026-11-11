@@ -26,12 +26,13 @@ You need the .NET 10 SDK and Node.js 22.
 
 ```powershell
 ./scripts/setup.ps1                                # restore, npm ci, enable the pre-commit hook
-dotnet run --project src/EquipmentRegister.Api     # API on http://localhost:5080
+dotnet watch --no-hot-reload --project src/EquipmentRegister.Api run -c Release   # API on http://localhost:5080
 npm start --prefix src/web                         # web app on http://localhost:4200
 ```
 
-In VS Code, **Tasks: Run Build Task** starts both. Open the Import page and try the files in
-`samples/`.
+In VS Code, **Tasks: Run Build Task** starts both. The API runs in Release and restarts when the
+code changes, so you and your agents can run `dotnet test` (a Debug build) while it is up. Open the
+Import page and try the files in `samples/`.
 
 ## One repository, every Copilot surface
 

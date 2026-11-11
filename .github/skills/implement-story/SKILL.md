@@ -38,7 +38,8 @@ When working interactively, share the plan before editing.
 ## 4. Tests first
 
 Write at least one test per acceptance criterion, named for the behaviour, and watch it fail for
-the right reason.
+the right reason. Where an existing check already proves a criterion (the report style check, an
+existing test), name that check instead of writing a new test.
 
 - API: xUnit in `tests/EquipmentRegister.Api.Tests` (rules in `Import/Rules`, endpoints in `Api`).
 - Web: Vitest specs beside the component (`*.spec.ts`).

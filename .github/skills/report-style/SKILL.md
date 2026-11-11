@@ -19,8 +19,9 @@ Reports go to clients. Every template in `src/EquipmentRegister.Api/Reports/Temp
 4. If the template is listed under `exempt` in `tools/report-style.config.json`, remove it from the
    list. That is what brings it under the check for good.
 5. Run `node tools/check-report-style.mjs` until it prints `OK`, then
-   `dotnet test EquipmentRegister.sln`.
-6. Look at the result: `dotnet run --project src/EquipmentRegister.Api`, then open
+   `dotnet test EquipmentRegister.sln`. For a style-only change that is the whole verification: the
+   check and the existing tests are the proof, so do not add tests and do not start the app.
+6. Tell the person how to look at the result: with the app running, open
    `http://localhost:5080/api/reports/<report-name>`.
 
 ## Fixing each rule

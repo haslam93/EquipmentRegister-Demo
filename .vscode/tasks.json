@@ -4,7 +4,8 @@
     {
       "label": "API: run",
       "type": "shell",
-      "command": "dotnet run --project src/EquipmentRegister.Api",
+      "command": "dotnet watch --no-hot-reload --project src/EquipmentRegister.Api run -c Release",
+      "options": { "env": { "DOTNET_WATCH_RESTART_ON_RUDE_EDIT": "true" } },
       "isBackground": true,
       "problemMatcher": {
         "owner": "dotnet-run",

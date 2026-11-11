@@ -14,8 +14,9 @@ try {
     try { npm ci } finally { Pop-Location }
 
     Write-Host ''
-    Write-Host 'Ready. Run the API with:  dotnet run --project src/EquipmentRegister.Api'
-    Write-Host '       Run the web app:   npm start   (in src/web)  ->  http://localhost:4200'
+    Write-Host 'Ready. In VS Code run "Tasks: Run Build Task" to start the API and the web app, or:'
+    Write-Host '  dotnet watch --no-hot-reload --project src/EquipmentRegister.Api run -c Release'
+    Write-Host '  npm start --prefix src/web      ->  http://localhost:4200'
 }
 finally {
     Pop-Location

@@ -25,7 +25,7 @@ Run from the repository root unless a folder is given.
 | Install web dependencies | `npm ci` in `src/web` |
 | Build and test the web app | `npm run build` and `npm run test:ci` in `src/web` |
 | Check report templates | `node tools/check-report-style.mjs` |
-| Run the API | `dotnet run --project src/EquipmentRegister.Api` (http://localhost:5080) |
+| Run the API | `dotnet watch --no-hot-reload --project src/EquipmentRegister.Api run -c Release` (http://localhost:5080). Release keeps it clear of test builds, which are Debug |
 | Run the web app | `npm start` in `src/web` (http://localhost:4200, proxies `/api` to the API) |
 
 ## Working agreements
@@ -38,6 +38,8 @@ Run from the repository root unless a folder is given.
 - Keep `docs/validation-rules.md` in step with the rules, in the same change.
 - Before finishing, run the commands that cover what you touched. Report what you ran and the
   result, and say plainly what you did not run.
+- Verify with builds, tests and checks. Do not start the API or the web server unless you are asked
+  to; someone may already be running them on ports 5080 and 4200.
 
 ## Conventions that matter here
 

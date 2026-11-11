@@ -14,11 +14,20 @@ permissions:
   contents: read
   issues: read
   pull-requests: read
+  security-events: read
   copilot-requests: write
 
 tools:
   github:
-    toolsets: [default, actions]
+    toolsets: [default, actions, code_security]
+    # Trust what the other automations wrote (CI Doctor comments, Copilot reviews and pull
+    # requests) so the report can use it, while still filtering content from outside the team.
+    min-integrity: approved
+    trusted-users:
+      - "github-actions[bot]"
+      - "copilot-pull-request-reviewer[bot]"
+      - "copilot-swe-agent[bot]"
+      - "Copilot"
 
 safe-outputs:
   mentions: false
@@ -48,9 +57,11 @@ The last 7 full days ending when this run starts (UTC). State the window dates a
    closed in the window.
 2. Pull requests opened, merged or still open in the window: author, age in days, review state and
    check status.
-3. CI: runs of the `CI` workflow in the window, with the number of failures and their causes. Use
-   any `[CI failure]` issues and CI Doctor comments.
-4. Open code scanning or `[CI failure]` issues that nobody has picked up.
+3. CI: runs of the `CI` workflow in the window, with the number of failures and their causes. Take
+   the cause from the CI Doctor comment on the pull request, or from a `[CI failure]` issue, when
+   there is one. Runs waiting for approval are not failures; list them separately.
+4. Security: the number of open code scanning alerts by severity, and whether any is being worked on
+   (an open pull request that mentions the alert).
 
 ## Report
 
@@ -61,8 +72,8 @@ headings, never `#` or `##`:
 ### Summary
 <Three sentences at most: overall progress, the biggest win, the biggest risk.>
 
-| Stories done | In progress | Ready, not started | Needs refinement | PRs merged | CI failures |
-| --- | --- | --- | --- | --- | --- |
+| Stories done | In progress | Ready, not started | Needs refinement | PRs merged | CI failures | Open security alerts |
+| --- | --- | --- | --- | --- | --- | --- |
 
 ### Needs your attention
 <Only items a manager must act on: stories blocked on refinement, pull requests waiting more than
@@ -86,5 +97,6 @@ headings, never `#` or `##`:
 
 - Report facts from the repository. When something cannot be determined, say "unknown"; do not
   estimate.
+- Ignore closed issues labelled `agentic-workflows`; they are automation housekeeping.
 - Use an "Unclassified" row for stories without a readiness label.
 - If nothing happened in the window, call `noop` and state the window you checked.
