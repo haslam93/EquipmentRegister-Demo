@@ -10,7 +10,7 @@ public class AreaRuleTests
     [Fact]
     public void Rejects_areas_not_in_the_project_using_configured_order()
     {
-        var rule = CreateRule(new("300", "Flotation"), new("100", "Crushing"));
+        var rule = CreateRule(new ProjectArea("300", "Flotation"), new ProjectArea("100", "Crushing"));
         var row = Rows.Row(rowNumber: 7, area: " 200 ");
 
         var error = Assert.Single(rule.Validate(row, Rows.Context(row)));
@@ -24,16 +24,25 @@ public class AreaRuleTests
     [Fact]
     public void Accepts_a_configured_area_after_trimming()
     {
-        var rule = CreateRule(new("100", "Crushing"));
+        var rule = CreateRule(new ProjectArea("100", "Crushing"));
         var row = Rows.Row(area: " 100 ");
 
         Assert.Empty(rule.Validate(row, Rows.Context(row)));
     }
 
     [Fact]
+    public void Rejects_an_area_code_that_differs_only_by_case()
+    {
+        var rule = CreateRule(new ProjectArea("abc", "Alpha"));
+        var row = Rows.Row(area: "ABC");
+
+        Assert.Single(rule.Validate(row, Rows.Context(row)));
+    }
+
+    [Fact]
     public void Leaves_a_blank_area_to_the_required_fields_rule()
     {
-        var rule = CreateRule(new("100", "Crushing"));
+        var rule = CreateRule(new ProjectArea("100", "Crushing"));
         var row = Rows.Row(area: " ");
 
         Assert.Empty(rule.Validate(row, Rows.Context(row)));

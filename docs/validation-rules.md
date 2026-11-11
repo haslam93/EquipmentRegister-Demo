@@ -11,6 +11,7 @@ to the register, or update the item that already has the same tag.
 | R003 | Discipline | the discipline is not Mechanical, Electrical, Process, Piping, Instrumentation or Structural (case is ignored) | `Discipline 'Chemical' is not recognised. Use one of: ...` |
 | R004 | PowerKw, WeightKg | a value is present but is not a plain decimal number (`.` as the decimal separator, no thousands separator), or is negative | `PowerKw '1,5' is not a number. ...` |
 | R005 | Status | a value is present but is not Planned, Ordered, Delivered or Installed (blank means Planned) | `Status 'On hold' is not recognised. ...` |
+| R007 | Area | the area does not match a configured project area code | `Area '900' is not an area of this project. Use one of: 100, 200, 300, 400, 500.` |
 
 ## File-level check
 
