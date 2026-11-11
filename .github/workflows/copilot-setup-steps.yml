@@ -1,0 +1,38 @@
+name: Copilot Setup Steps
+
+# Prepares the environment for Copilot cloud agent sessions that run on GitHub Actions,
+# so the agent can build and test straight away. Cloud sandbox sessions do not use this file.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # The job must be named copilot-setup-steps or Copilot will not pick it up.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: src/web/package-lock.json
+
+      - name: Restore API dependencies
+        run: dotnet restore EquipmentRegister.sln
+
+      - name: Install web dependencies
+        run: npm ci
+        working-directory: src/web

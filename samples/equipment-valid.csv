@@ -1,0 +1,7 @@
+Tag,Description,Discipline,Area,PowerKw,WeightKg,Status
+CV-1011,Stockpile feed conveyor,Mechanical,100,185,74000,Ordered
+SC-1020,Vibrating grizzly screen,Mechanical,100,37,9800,Planned
+CY-2020,Primary cyclone cluster,Process,200,,18500,Planned
+PU-3010A,Concentrate transfer pump (duty),Process,300,110,2300,Planned
+PU-3010B,"Concentrate transfer pump (standby), spared",Process,300,110,2300,
+MCC-5010,Grinding area motor control centre,Electrical,500,,6400,Ordered

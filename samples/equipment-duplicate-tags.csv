@@ -1,0 +1,6 @@
+Tag,Description,Discipline,Area,PowerKw,WeightKg,Status
+PU-4020A,Tailings pump (duty),Process,400,250,5200,Planned
+PU-4020B,Tailings pump (standby),Process,400,250,5200,Planned
+PU-4020A,Tailings pump - revised motor,Process,400,315,5600,Planned
+TK-4030,Tailings pump box,Process,400,,8900,Planned
+PU-4020B,Tailings pump (standby) - pasted twice,Process,400,250,5200,Ordered

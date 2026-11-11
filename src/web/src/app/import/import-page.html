@@ -1,0 +1,64 @@
+<h2>Import</h2>
+<p class="lede">
+  Upload an equipment list as CSV. Valid rows are added to the register; rows that fail a
+  validation rule are rejected and listed with their spreadsheet row number.
+</p>
+
+@if (error()) {
+  <div class="message error" role="alert">{{ error() }}</div>
+}
+
+<div class="card">
+  <div class="toolbar">
+    <input type="file" accept=".csv" aria-label="CSV file" (change)="onFileSelected($event)" />
+    <button type="button" [disabled]="!file() || busy()" (click)="upload()">
+      {{ busy() ? 'Importing…' : 'Import' }}
+    </button>
+    <span class="spacer"></span>
+    <a href="/api/templates/download?name=equipment-import-template.csv">Download the CSV template</a>
+  </div>
+
+  @if (result(); as outcome) {
+    <div class="outcome">
+      <div class="stat">
+        <strong>{{ outcome.totalRows }}</strong>
+        <span>rows in {{ outcome.fileName }}</span>
+      </div>
+      <div class="stat accepted">
+        <strong>{{ outcome.accepted }}</strong>
+        <span>accepted</span>
+      </div>
+      <div class="stat rejected">
+        <strong>{{ outcome.rejected }}</strong>
+        <span>rejected</span>
+      </div>
+    </div>
+
+    @if (outcome.errors.length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th class="number">Row</th>
+            <th>Rule</th>
+            <th>Column</th>
+            <th>Problem</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (rowError of outcome.errors; track $index) {
+            <tr>
+              <td class="number">{{ rowError.rowNumber }}</td>
+              <td class="tag">{{ rowError.ruleId }}</td>
+              <td>{{ rowError.column }}</td>
+              <td>{{ rowError.message }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p class="muted">Every row passed validation.</p>
+    }
+  } @else {
+    <p class="muted">Choose a file to begin. Try the files in the <code>samples</code> folder.</p>
+  }
+</div>

@@ -1,0 +1,10 @@
+{
+    "github.copilot.enable": {
+        "markdown": true
+    },
+    "dotnet.defaultSolution": "EquipmentRegister.sln",
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    }
+}

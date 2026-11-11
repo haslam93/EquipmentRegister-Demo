@@ -1,0 +1,21 @@
+# .NET
+bin/
+obj/
+TestResults/
+*.user
+.vs/
+
+# Node / Angular (src/web has its own .gitignore as well)
+node_modules/
+dist/
+.angular/
+
+# Editors and OS
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+
+# Local-only files
+*.local
+.env

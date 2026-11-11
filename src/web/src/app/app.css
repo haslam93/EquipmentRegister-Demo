@@ -1,0 +1,58 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 32px;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 4px solid var(--brand);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-mark {
+  width: 14px;
+  height: 40px;
+  background: var(--brand);
+  border-radius: 2px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.brand p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--rule);
+}
+
+nav {
+  display: flex;
+  gap: 4px;
+}
+
+nav a {
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: var(--paper);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover,
+nav a.active {
+  background: var(--brand);
+}
+
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 28px 32px 48px;
+}

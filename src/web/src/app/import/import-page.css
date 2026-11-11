@@ -1,0 +1,30 @@
+.outcome {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat {
+  flex: 1;
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--muted);
+  border-radius: 6px;
+}
+
+.stat strong {
+  display: block;
+  font-size: 28px;
+}
+
+.stat span {
+  color: var(--muted);
+}
+
+.stat.accepted {
+  border-left-color: var(--ok);
+}
+
+.stat.rejected {
+  border-left-color: var(--alert);
+}

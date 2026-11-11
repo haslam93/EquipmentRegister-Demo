@@ -1,0 +1,56 @@
+<h2>Register</h2>
+<p class="lede">Every tagged item on the project, kept current by CSV imports from the disciplines.</p>
+
+@if (error()) {
+  <div class="message error" role="alert">{{ error() }}</div>
+}
+
+<div class="card">
+  <div class="toolbar">
+    <input
+      type="search"
+      placeholder="Search tag or description"
+      aria-label="Search tag or description"
+      [value]="search()"
+      (input)="onSearch($event)"
+    />
+    <span class="spacer"></span>
+    <span class="muted" data-testid="summary">
+      {{ visibleItems().length }} of {{ items().length }} items &middot;
+      {{ totalPowerKw() | number: '1.0-1' }} kW connected
+    </span>
+  </div>
+
+  @if (loading()) {
+    <p class="muted">Loading the register&hellip;</p>
+  } @else if (visibleItems().length === 0) {
+    <p class="muted">No equipment matches the search.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Tag</th>
+          <th>Description</th>
+          <th>Discipline</th>
+          <th>Area</th>
+          <th class="number">Power (kW)</th>
+          <th class="number">Weight (kg)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of visibleItems(); track item.tag) {
+          <tr>
+            <td class="tag">{{ item.tag }}</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.discipline }}</td>
+            <td>{{ item.area }}</td>
+            <td class="number">{{ item.powerKw === null ? '-' : (item.powerKw | number: '1.0-1') }}</td>
+            <td class="number">{{ item.weightKg === null ? '-' : (item.weightKg | number: '1.0-1') }}</td>
+            <td>{{ item.status }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

@@ -1,0 +1,18 @@
+<header class="app-header">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true"></span>
+    <div>
+      <h1>Equipment Register</h1>
+      <p>North Ridge Concentrator Expansion</p>
+    </div>
+  </div>
+  <nav aria-label="Main">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Register</a>
+    <a routerLink="/import" routerLinkActive="active">Import</a>
+    <a href="/api/reports/summary" target="_blank" rel="noopener">Summary report</a>
+  </nav>
+</header>
+
+<main>
+  <router-outlet />
+</main>

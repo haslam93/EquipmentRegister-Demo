@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Equipment Summary - {{projectName}}</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #1F2933; margin: 24pt; }
+    .report-header { border-bottom: 3pt solid #D9480F; padding-bottom: 8pt; margin-bottom: 16pt; }
+    .report-header h1 { font-size: 18pt; color: #1F2933; margin: 0; }
+    .report-header p { font-size: 10pt; color: #52606D; margin: 4pt 0 0; }
+    h2 { font-size: 13pt; color: #D9480F; margin: 18pt 0 6pt; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background-color: #1F2933; color: #FFFFFF; font-size: 10pt; text-align: left; padding: 5pt 8pt; }
+    td { font-size: 10pt; padding: 5pt 8pt; border-bottom: 1pt solid #CBD2D9; }
+    tr:nth-child(even) td { background-color: #F5F7FA; }
+    .number { text-align: right; }
+    .report-footer { margin-top: 24pt; border-top: 1pt solid #CBD2D9; padding-top: 6pt; font-size: 9pt; color: #52606D; }
+  </style>
+</head>
+<body>
+  <header class="report-header">
+    <h1>Equipment Summary</h1>
+    <p>{{projectName}} &middot; Project {{projectNumber}} &middot; {{totalCount}} items</p>
+  </header>
+
+  <h2>By discipline</h2>
+  <table>
+    <thead>
+      <tr><th>Discipline</th><th class="number">Items</th><th class="number">Connected load (kW)</th><th class="number">Weight (kg)</th></tr>
+    </thead>
+    <tbody>
+{{disciplineRows}}    </tbody>
+  </table>
+
+  <h2>By status</h2>
+  <table>
+    <thead>
+      <tr><th>Status</th><th class="number">Items</th></tr>
+    </thead>
+    <tbody>
+{{statusRows}}    </tbody>
+  </table>
+
+  <footer class="report-footer">Generated {{generatedOn}} &middot; Uncontrolled when printed</footer>
+</body>
+</html>

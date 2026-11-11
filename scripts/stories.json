@@ -1,0 +1,76 @@
+[
+  {
+    "key": "duplicate-tags",
+    "title": "Reject duplicate equipment tags in an import file",
+    "story": "As a discipline lead importing an equipment list,\nI want rows that repeat a tag used earlier in the same file to be rejected,\nso that a copy-and-paste mistake cannot silently overwrite another item.",
+    "acceptanceCriteria": [
+      "Given a file where two or more rows have the same Tag, when it is imported, then the first row is accepted and every later row with that tag is rejected with rule id `R006`, column `Tag` and the message `Tag '<tag>' is already used on row <first row number>.`",
+      "Tags are compared ignoring case and surrounding spaces.",
+      "A row with a blank Tag is not reported by this rule (R001 already covers it).",
+      "A tag that is already in the register but appears only once in the file still updates the existing item, as it does today.",
+      "`docs/validation-rules.md` lists R006, and importing `samples/equipment-duplicate-tags.csv` gives 3 accepted and 2 rejected rows."
+    ],
+    "outOfScope": [
+      "Detecting duplicates across separate import files."
+    ]
+  },
+  {
+    "key": "area-codes",
+    "title": "Validate the Area column against the project's area list",
+    "story": "As a project controls engineer,\nI want imports to reject rows whose Area is not one of the project's areas,\nso that equipment cannot be filed under an area that does not exist.",
+    "acceptanceCriteria": [
+      "The project's areas are configured in `appsettings.json` under `Project:Areas` as a list of codes and names: 100 Crushing, 200 Grinding, 300 Flotation, 400 Tailings, 500 Utilities.",
+      "Given a row whose Area is not in the list, when the file is imported, then the row is rejected with rule id `R007`, column `Area` and the message `Area '<value>' is not an area of this project. Use one of: 100, 200, 300, 400, 500.`",
+      "A blank Area is not reported by this rule (R001 already covers it).",
+      "`GET /api/project/areas` returns the configured areas (code and name).",
+      "`docs/validation-rules.md` lists R007, and `samples/equipment-with-errors.csv` contains a row that triggers it."
+    ],
+    "outOfScope": [
+      "Showing the areas in the web app."
+    ]
+  },
+  {
+    "key": "discipline-filter",
+    "title": "Filter the register by discipline and show status as a badge",
+    "story": "As a discipline lead,\nI want to filter the register by discipline and see each item's status at a glance,\nso that I can review my discipline's equipment without scrolling through the whole list.",
+    "acceptanceCriteria": [
+      "The Register page has a Discipline dropdown with \"All disciplines\" followed by the disciplines returned by `GET /api/equipment/disciplines`.",
+      "Choosing a discipline shows only that discipline's items. It combines with the search box, and the \"n of m items\" summary and the connected load total update to match.",
+      "Status is shown as a badge using the CSS variables in `styles.css`: Planned `--muted`, Ordered `--warn`, Delivered `--ok`, Installed `--ink`. The status text stays visible, so colour is not the only cue.",
+      "When nothing matches, the page shows \"No equipment matches the filters.\"",
+      "Vitest specs cover the discipline filter and the status badge."
+    ],
+    "outOfScope": [
+      "Filtering on the server and paging."
+    ]
+  },
+  {
+    "key": "area-load-report-style",
+    "title": "Bring the Area Load List report in line with the report style guide",
+    "story": "As a project engineer who sends reports to the client,\nI want the Area Load List to follow the report style guide,\nso that every report we issue looks like it came from the same firm.",
+    "acceptanceCriteria": [
+      "`area-load-list.html` passes `node tools/check-report-style.mjs` with no problems: approved fonts and sizes, palette colours only, no inline styles, and the standard header and footer.",
+      "`area-load-list.html` is removed from the `exempt` list in `tools/report-style.config.json`, so CI and the pre-commit hook check it from now on.",
+      "The report shows the same data as before: one row per area with the item count and connected load, the total connected load, the project name and number, and the generated date.",
+      "The total connected load is emphasised with the palette's `alert` colour."
+    ],
+    "outOfScope": [
+      "New report content."
+    ]
+  },
+  {
+    "key": "csv-export",
+    "title": "Export the register to CSV",
+    "story": "As a project controls engineer,\nI want to download the register as a CSV file,\nso that I can share it with people who do not use the app.",
+    "acceptanceCriteria": [
+      "`GET /api/equipment/export` returns `text/csv` with a header row and one row per item, in the import column order, sorted by tag, as a download named `equipment-register.csv`.",
+      "An optional `discipline` query parameter limits the export to that discipline (case is ignored).",
+      "Values that contain commas, quotes or line breaks are quoted correctly, and numbers use `.` as the decimal separator whatever the server's locale.",
+      "The exported file can be imported again without errors.",
+      "The Register page has an \"Export CSV\" link."
+    ],
+    "outOfScope": [
+      "Excel (.xlsx) export."
+    ]
+  }
+]

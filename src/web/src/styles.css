@@ -1,0 +1,132 @@
+/* Colours mirror the report palette in docs/report-style-guide.md. */
+:root {
+  --brand: #d9480f;
+  --ink: #1f2933;
+  --muted: #52606d;
+  --rule: #cbd2d9;
+  --band: #f5f7fa;
+  --paper: #ffffff;
+  --ok: #2f855a;
+  --warn: #b7791f;
+  --alert: #c53030;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--band);
+}
+
+h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+p.lede {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+a {
+  color: var(--brand);
+}
+
+.card {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.toolbar .spacer {
+  flex: 1;
+}
+
+input[type='search'],
+select {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  min-width: 260px;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+button {
+  font: inherit;
+  font-weight: 600;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--brand);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+tbody tr:nth-child(even) td {
+  background: var(--band);
+}
+
+.number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tag {
+  font-family: Consolas, 'Courier New', monospace;
+  font-weight: 600;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.message {
+  padding: 12px 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.message.error {
+  background: #fdecec;
+  color: var(--alert);
+}

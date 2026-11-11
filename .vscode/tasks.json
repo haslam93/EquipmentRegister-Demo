@@ -1,0 +1,66 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "API: run",
+      "type": "shell",
+      "command": "dotnet run --project src/EquipmentRegister.Api",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "dotnet-run",
+        "pattern": { "regexp": "^__never__$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Building\\.\\.\\.",
+          "endsPattern": "Now listening on"
+        }
+      },
+      "presentation": { "group": "app", "panel": "dedicated" }
+    },
+    {
+      "label": "Web: serve",
+      "type": "shell",
+      "command": "npm start",
+      "options": { "cwd": "${workspaceFolder}/src/web" },
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "ng-serve",
+        "pattern": { "regexp": "^__never__$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Building\\.\\.\\.",
+          "endsPattern": "(Local:|bundle generation (complete|failed))"
+        }
+      },
+      "presentation": { "group": "app", "panel": "dedicated" }
+    },
+    {
+      "label": "Run app (API + Web)",
+      "dependsOn": ["API: run", "Web: serve"],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "Test: API",
+      "type": "shell",
+      "command": "dotnet test EquipmentRegister.sln",
+      "problemMatcher": "$msCompile",
+      "group": { "kind": "test", "isDefault": true }
+    },
+    {
+      "label": "Test: Web",
+      "type": "shell",
+      "command": "npm run test:ci",
+      "options": { "cwd": "${workspaceFolder}/src/web" },
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "Check: report style",
+      "type": "shell",
+      "command": "node tools/check-report-style.mjs --all",
+      "problemMatcher": []
+    }
+  ]
+}

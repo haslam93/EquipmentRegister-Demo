@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Area Load List</title>
+  <style>
+    body { font-family: "Times New Roman", serif; font-size: 11px; color: black; margin: 20px; }
+    h1 { font-family: "Comic Sans MS", cursive; font-size: 22px; color: purple; }
+    table { border-collapse: collapse; width: 100%; }
+    th { background-color: #3366FF; color: white; font-size: 11px; text-align: left; padding: 4px 6px; }
+    td { font-size: 11px; padding: 4px 6px; border-bottom: 1px solid rgb(200, 200, 200); }
+    .number { text-align: right; }
+  </style>
+</head>
+<body>
+  <h1>Area Load List</h1>
+  <p style="color: #666666; font-size: 10px;">{{projectName}} ({{projectNumber}})</p>
+
+  <table>
+    <thead>
+      <tr><th>Area</th><th class="number">Items</th><th class="number">Connected load (kW)</th></tr>
+    </thead>
+    <tbody>
+{{areaRows}}    </tbody>
+  </table>
+
+  <p style="font-weight: bold; color: #FF0000;">Total connected load: {{totalPowerKw}} kW</p>
+  <p style="font-size: 8px;">Printed {{generatedOn}}</p>
+</body>
+</html>

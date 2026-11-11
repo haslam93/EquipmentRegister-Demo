@@ -1,0 +1,11 @@
+#!/bin/sh
+# Blocks a commit when a staged report template breaks the report style guide.
+# Enable once per clone:  git config core.hooksPath .githooks
+
+if git diff --cached --name-only | grep -q "Reports/Templates/"; then
+  if ! node tools/check-report-style.mjs; then
+    echo ""
+    echo "Commit blocked: fix the report style problems above (docs/report-style-guide.md)."
+    exit 1
+  fi
+fi

@@ -1,0 +1,9 @@
+Tag,Description,Discipline,Area,PowerKw,WeightKg,Status
+AG-3020,Conditioning tank agitator,Mechanical,300,45,3200,Planned
+pu-3030,Reagent dosing pump,Process,300,2.2,85,Planned
+TK-3040,,Process,300,,12500,Planned
+FL-3050,Cleaner flotation cell,Chemical,300,90,21000,Planned
+CP-5020,Plant air compressor,Mechanical,500,"1,5",4100,Ordered
+TH-4010,Concentrate thickener,Process,400,30,-150,Planned
+SG-5030,480 V switchgear,Electrical,500,,5200,On hold
+CV-3060,Concentrate conveyor,Mechanical,300,55,31000,Delivered
