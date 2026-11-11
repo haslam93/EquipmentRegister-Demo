@@ -20,6 +20,8 @@ safe-outputs:
   add-labels:
     allowed: [ready, needs-refinement]
     max: 1
+    item-schema:
+      type: string
   remove-labels:
     allowed: [ready, needs-refinement]
     max: 1
@@ -46,6 +48,11 @@ Definition of Ready, before anyone starts building it.
 ## What to publish
 
 Add exactly one label, `ready` or `needs-refinement`, and remove the other one if the issue has it.
+Apply the label directly, as a plain label name; it is a decision, not a suggestion.
+
+Judge the story as written. A story is Ready when a competent developer could build and test it
+without asking the author anything. Do not fail a story for edge cases that the acceptance criteria
+already settle, or for polish that would not change what gets built.
 
 Post one comment with this structure:
 

@@ -4,8 +4,9 @@
     "title": "Reject duplicate equipment tags in an import file",
     "story": "As a discipline lead importing an equipment list,\nI want rows that repeat a tag used earlier in the same file to be rejected,\nso that a copy-and-paste mistake cannot silently overwrite another item.",
     "acceptanceCriteria": [
-      "Given a file where two or more rows have the same Tag, when it is imported, then the first row is accepted and every later row with that tag is rejected with rule id `R006`, column `Tag` and the message `Tag '<tag>' is already used on row <first row number>.`",
+      "Given a file where two or more rows have the same Tag, when it is imported, then every row after the first one with that tag is rejected with rule id `R006`, column `Tag` and the message `Tag '<tag>' is already used on row <first row number>.` Here `<tag>` is the tag as written on the rejected row, and `<first row number>` is the spreadsheet row of the first row in the file with that tag.",
       "Tags are compared ignoring case and surrounding spaces.",
+      "The first row with a tag counts as the first use even when another rule rejects that row. A row can be reported by R006 and by other rules at the same time.",
       "A row with a blank Tag is not reported by this rule (R001 already covers it).",
       "A tag that is already in the register but appears only once in the file still updates the existing item, as it does today.",
       "`docs/validation-rules.md` lists R006, and importing `samples/equipment-duplicate-tags.csv` gives 3 accepted and 2 rejected rows."
@@ -20,13 +21,14 @@
     "story": "As a project controls engineer,\nI want imports to reject rows whose Area is not one of the project's areas,\nso that equipment cannot be filed under an area that does not exist.",
     "acceptanceCriteria": [
       "The project's areas are configured in `appsettings.json` under `Project:Areas` as a list of codes and names: 100 Crushing, 200 Grinding, 300 Flotation, 400 Tailings, 500 Utilities.",
-      "Given a row whose Area is not in the list, when the file is imported, then the row is rejected with rule id `R007`, column `Area` and the message `Area '<value>' is not an area of this project. Use one of: 100, 200, 300, 400, 500.`",
-      "A blank Area is not reported by this rule (R001 already covers it).",
-      "`GET /api/project/areas` returns the configured areas (code and name).",
+      "Given a row whose Area, after trimming, does not exactly match a configured code, when the file is imported, then the row is rejected with rule id `R007`, column `Area` and the message `Area '<value>' is not an area of this project. Use one of: 100, 200, 300, 400, 500.` The list in the message is built from the configured codes, in configured order.",
+      "A blank Area is not reported by this rule (R001 already covers it). When no areas are configured the rule reports nothing.",
+      "`GET /api/project/areas` returns the configured areas as a JSON array of objects with `code` and `name`.",
       "`docs/validation-rules.md` lists R007, and `samples/equipment-with-errors.csv` contains a row that triggers it."
     ],
     "outOfScope": [
-      "Showing the areas in the web app."
+      "Showing the areas in the web app.",
+      "Editing the area list through the API."
     ]
   },
   {
@@ -35,7 +37,7 @@
     "story": "As a discipline lead,\nI want to filter the register by discipline and see each item's status at a glance,\nso that I can review my discipline's equipment without scrolling through the whole list.",
     "acceptanceCriteria": [
       "The Register page has a Discipline dropdown with \"All disciplines\" followed by the disciplines returned by `GET /api/equipment/disciplines`.",
-      "Choosing a discipline shows only that discipline's items. It combines with the search box, and the \"n of m items\" summary and the connected load total update to match.",
+      "Choosing a discipline shows only that discipline's items, filtered in the browser from the list that is already loaded. It combines with the search box, and the \"n of m items\" summary and the connected load total update to match. Choosing \"All disciplines\" shows everything again.",
       "Status is shown as a badge using the CSS variables in `styles.css`: Planned `--muted`, Ordered `--warn`, Delivered `--ok`, Installed `--ink`. The status text stays visible, so colour is not the only cue.",
       "When nothing matches, the page shows \"No equipment matches the filters.\"",
       "Vitest specs cover the discipline filter and the status badge."
@@ -64,8 +66,8 @@
     "story": "As a project controls engineer,\nI want to download the register as a CSV file,\nso that I can share it with people who do not use the app.",
     "acceptanceCriteria": [
       "`GET /api/equipment/export` returns `text/csv` with a header row and one row per item, in the import column order, sorted by tag, as a download named `equipment-register.csv`.",
-      "An optional `discipline` query parameter limits the export to that discipline (case is ignored).",
-      "Values that contain commas, quotes or line breaks are quoted correctly, and numbers use `.` as the decimal separator whatever the server's locale.",
+      "An optional `discipline` query parameter limits the export to that discipline (case is ignored). A discipline with no items returns the header row only.",
+      "Values that contain commas, quotes or line breaks are quoted correctly, numbers use `.` as the decimal separator whatever the server's locale, and a missing number is exported as an empty field.",
       "The exported file can be imported again without errors.",
       "The Register page has an \"Export CSV\" link."
     ],

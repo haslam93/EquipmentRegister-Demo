@@ -18,10 +18,10 @@ Follow these steps in order. Do not skip the readiness check or the evidence.
 
 ## 2. Check readiness
 
-Compare the story with `docs/definition-of-ready.md`.
-
-- Ready: continue.
-- Not ready: stop and reply with the gaps as questions for the author. Do not invent requirements.
+- The story has the `ready` label: the Story Readiness check has already passed it. Continue.
+- The story has the `needs-refinement` label: stop and point to the open questions on the story.
+- No readiness label: compare the story with `docs/definition-of-ready.md` yourself. If it is not
+  ready, stop and reply with the gaps as questions for the author. Do not invent requirements.
 
 ## 3. Plan the smallest slice
 
