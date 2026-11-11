@@ -15,6 +15,7 @@
       (input)="onSearch($event)"
     />
     <span class="spacer"></span>
+    <a href="/api/equipment/export">Export CSV</a>
     <span class="muted" data-testid="summary">
       {{ visibleItems().length }} of {{ items().length }} items &middot;
       {{ totalPowerKw() | number: '1.0-1' }} kW connected
