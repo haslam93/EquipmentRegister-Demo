@@ -24,6 +24,7 @@ permissions:
   copilot-requests: write
 
 tools:
+  bash: ["cat", "ls", "find", "grep", "head", "tail", "wc"]
   github:
     toolsets: [default, actions]
     # Job logs and files on pull request branches are untrusted input ("none" integrity), and this
