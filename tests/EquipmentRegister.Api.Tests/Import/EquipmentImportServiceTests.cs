@@ -1,6 +1,8 @@
 using EquipmentRegister.Api.Data;
 using EquipmentRegister.Api.Import;
 using EquipmentRegister.Api.Import.Rules;
+using EquipmentRegister.Api.Reports;
+using Microsoft.Extensions.Options;
 
 namespace EquipmentRegister.Api.Tests.Import;
 
@@ -13,6 +15,17 @@ public class EquipmentImportServiceTests
 
     public EquipmentImportServiceTests()
     {
+        var project = Options.Create(new ProjectOptions
+        {
+            Areas =
+            [
+                new("100", "Crushing"),
+                new("200", "Grinding"),
+                new("300", "Flotation"),
+                new("400", "Tailings"),
+                new("500", "Utilities"),
+            ],
+        });
         IRowRule[] rules =
         [
             new RequiredFieldsRule(),
@@ -20,6 +33,7 @@ public class EquipmentImportServiceTests
             new DisciplineRule(),
             new NumericFieldsRule(),
             new StatusRule(),
+            new AreaRule(project),
         ];
         _service = new EquipmentImportService(rules, _repository);
     }
@@ -90,5 +104,19 @@ public class EquipmentImportServiceTests
         var error = Assert.Single(result.Errors);
         Assert.Equal(EquipmentImportService.FileRuleId, error.RuleId);
         Assert.Contains("Area", error.Message);
+    }
+
+    [Fact]
+    public async Task Rejects_rows_with_an_area_not_in_the_project()
+    {
+        var result = await _service.ImportAsync(
+            "unknown-area.csv",
+            Header + "PU-1001A,Slurry pump,Process,900,75,1250,Planned\n");
+
+        Assert.Equal(0, result.Accepted);
+        Assert.Equal(1, result.Rejected);
+        Assert.Equal(
+            new RowError(2, "R007", "Area", "Area '900' is not an area of this project. Use one of: 100, 200, 300, 400, 500."),
+            Assert.Single(result.Errors));
     }
 }

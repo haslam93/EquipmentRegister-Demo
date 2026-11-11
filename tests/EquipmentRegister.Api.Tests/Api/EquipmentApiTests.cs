@@ -32,6 +32,24 @@ public class EquipmentApiTests(WebApplicationFactory<Program> factory) : IClassF
     }
 
     [Fact]
+    public async Task Returns_the_configured_project_areas()
+    {
+        using var response = await _client.GetAsync("/api/project/areas");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        using var json = await response.Content.ReadAsStreamAsync();
+        using var document = await System.Text.Json.JsonDocument.ParseAsync(json);
+        var areas = document.RootElement.EnumerateArray().ToArray();
+
+        Assert.Equal(5, areas.Length);
+        Assert.Equal(("100", "Crushing"), (areas[0].GetProperty("code").GetString(), areas[0].GetProperty("name").GetString()));
+        Assert.Equal(("200", "Grinding"), (areas[1].GetProperty("code").GetString(), areas[1].GetProperty("name").GetString()));
+        Assert.Equal(("300", "Flotation"), (areas[2].GetProperty("code").GetString(), areas[2].GetProperty("name").GetString()));
+        Assert.Equal(("400", "Tailings"), (areas[3].GetProperty("code").GetString(), areas[3].GetProperty("name").GetString()));
+        Assert.Equal(("500", "Utilities"), (areas[4].GetProperty("code").GetString(), areas[4].GetProperty("name").GetString()));
+    }
+
+    [Fact]
     public async Task Imports_a_csv_file_and_returns_row_errors()
     {
         const string csv =
