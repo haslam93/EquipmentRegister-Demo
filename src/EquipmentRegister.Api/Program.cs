@@ -19,6 +19,7 @@ builder.Services.AddSingleton<IRowRule, TagFormatRule>();
 builder.Services.AddSingleton<IRowRule, DisciplineRule>();
 builder.Services.AddSingleton<IRowRule, NumericFieldsRule>();
 builder.Services.AddSingleton<IRowRule, StatusRule>();
+builder.Services.AddSingleton<IRowRule, AreaRule>();
 builder.Services.AddSingleton<EquipmentImportService>();
 
 var app = builder.Build();

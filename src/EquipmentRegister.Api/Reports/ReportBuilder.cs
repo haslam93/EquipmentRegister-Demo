@@ -12,7 +12,11 @@ public sealed class ProjectOptions
     public string Name { get; set; } = "Unnamed project";
 
     public string Number { get; set; } = "N/A";
+
+    public List<ProjectArea> Areas { get; set; } = [];
 }
+
+public sealed record ProjectArea(string Code, string Name);
 
 /// <summary>
 /// Fills the HTML report templates in Reports/Templates. Templates must follow
