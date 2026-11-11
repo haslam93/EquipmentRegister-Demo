@@ -26,6 +26,9 @@ permissions:
 tools:
   github:
     toolsets: [default, actions]
+    # Job logs and files on pull request branches are untrusted input ("none" integrity), and this
+    # workflow exists to read them. The agent stays read-only and can publish one comment or issue.
+    min-integrity: none
 
 safe-outputs:
   add-comment:

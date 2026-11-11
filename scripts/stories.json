@@ -61,6 +61,20 @@
     ]
   },
   {
+    "key": "description-length",
+    "title": "Reject descriptions longer than 120 characters",
+    "story": "As a document controller,\nI want imports to reject rows whose Description is longer than 120 characters,\nso that descriptions fit the equipment list and datasheet title blocks without being cut off.",
+    "acceptanceCriteria": [
+      "Given a row whose Description, after trimming, is longer than 120 characters, when the file is imported, then the row is rejected with rule id `R008`, column `Description` and the message `Description is <length> characters long. Shorten it to 120 characters or fewer.` where `<length>` is the trimmed length.",
+      "A Description of exactly 120 characters is accepted.",
+      "A blank Description is not reported by this rule (R001 already covers it).",
+      "`docs/validation-rules.md` lists R008, and `samples/equipment-with-errors.csv` contains a row that triggers it."
+    ],
+    "outOfScope": [
+      "Shortening descriptions automatically."
+    ]
+  },
+  {
     "key": "csv-export",
     "title": "Export the register to CSV",
     "story": "As a project controls engineer,\nI want to download the register as a CSV file,\nso that I can share it with people who do not use the app.",
