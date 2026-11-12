@@ -43,6 +43,12 @@ For servers that require authentication, provide `Email__UserName` and `Email__P
 environment variables or another secret store. Do not commit credentials. If SMTP settings are
 missing or delivery fails, the import still completes and the API logs the notification problem.
 
+Import page before and after a completed upload:
+
+![Before import](docs/screenshots/import-before.png)
+
+![After import](docs/screenshots/import-after.png)
+
 ## One repository, every Copilot surface
 
 Everything that shapes how Copilot works here is in the repository, so VS Code, Copilot CLI, the
