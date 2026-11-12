@@ -1,11 +1,15 @@
 using EquipmentRegister.Api.Import;
+using EquipmentRegister.Api.Notifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EquipmentRegister.Api.Controllers;
 
 [ApiController]
 [Route("api/imports")]
-public sealed class ImportsController(EquipmentImportService importService) : ControllerBase
+public sealed class ImportsController(
+    EquipmentImportService importService,
+    IImportCompletionNotifier notifier,
+    ILogger<ImportsController> logger) : ControllerBase
 {
     private const long MaxFileBytes = 1024 * 1024;
 
@@ -27,6 +31,15 @@ public sealed class ImportsController(EquipmentImportService importService) : Co
         var csv = await reader.ReadToEndAsync(cancellationToken);
 
         var result = await importService.ImportAsync(Path.GetFileName(file.FileName), csv, cancellationToken);
+        try
+        {
+            await notifier.NotifyAsync(result, cancellationToken);
+        }
+        catch (Exception exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            logger.LogError(exception, "Import completed, but its email notification could not be sent.");
+        }
+
         return Ok(result);
     }
 }

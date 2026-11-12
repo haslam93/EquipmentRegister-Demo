@@ -1,6 +1,7 @@
 using EquipmentRegister.Api.Data;
 using EquipmentRegister.Api.Import;
 using EquipmentRegister.Api.Import.Rules;
+using EquipmentRegister.Api.Notifications;
 using EquipmentRegister.Api.Reports;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.Configure<ProjectOptions>(builder.Configuration.GetSection("Project"));
+builder.Services.Configure<ImportEmailOptions>(builder.Configuration.GetSection("Email"));
+builder.Services.AddSingleton<IImportCompletionNotifier, SmtpImportCompletionNotifier>();
 
 builder.Services.AddSingleton<IEquipmentRepository>(_ => new InMemoryEquipmentRepository(SeedData.Items));
 builder.Services.AddSingleton<ReportBuilder>();
