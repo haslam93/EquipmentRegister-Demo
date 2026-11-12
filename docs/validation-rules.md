@@ -11,6 +11,9 @@ to the register, or update the item that already has the same tag.
 | R003 | Discipline | the discipline is not Mechanical, Electrical, Process, Piping, Instrumentation or Structural (case is ignored) | `Discipline 'Chemical' is not recognised. Use one of: ...` |
 | R004 | PowerKw, WeightKg | a value is present but is not a plain decimal number (`.` as the decimal separator, no thousands separator), or is negative | `PowerKw '1,5' is not a number. ...` |
 | R005 | Status | a value is present but is not Planned, Ordered, Delivered or Installed (blank means Planned) | `Status 'On hold' is not recognised. ...` |
+| R008 | Description | the trimmed description is longer than 120 characters, counted using .NET `string.Length` (UTF-16 code units) | `Description is 121 characters long. Shorten it to 120 characters or fewer.` |
+
+R006 and R007 are reserved for the duplicate tag and area list stories.
 
 ## File-level check
 

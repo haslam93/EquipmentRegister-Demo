@@ -53,6 +53,32 @@ public class EquipmentApiTests(WebApplicationFactory<Program> factory) : IClassF
     }
 
     [Fact]
+    public async Task Rejects_long_descriptions_with_R008_and_accepts_the_trimmed_120_character_boundary()
+    {
+        var description = new string('a', 120);
+        var csv = "Tag,Description,Discipline,Area\n" +
+            $"AG-9002,  {description}a  ,Mechanical,300\n" +
+            $"AG-9003,  {description}  ,Mechanical,300\n";
+
+        var response = await _client.PostAsync("/api/imports", CsvUpload(csv, "descriptions.csv"));
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        var result = await response.Content.ReadFromJsonAsync<ImportResult>();
+        Assert.NotNull(result);
+        Assert.Equal(1, result.Accepted);
+        Assert.Equal(1, result.Rejected);
+        var error = Assert.Single(result.Errors);
+        Assert.Equal("R008", error.RuleId);
+        Assert.Equal(ImportColumns.Description, error.Column);
+        Assert.Equal(2, error.RowNumber);
+        Assert.Equal("Description is 121 characters long. Shorten it to 120 characters or fewer.", error.Message);
+        Assert.Equal(HttpStatusCode.NotFound, (await _client.GetAsync("/api/equipment/AG-9002")).StatusCode);
+        var imported = await _client.GetFromJsonAsync<EquipmentItem>("/api/equipment/AG-9003");
+        Assert.NotNull(imported);
+        Assert.Equal(description, imported.Description);
+    }
+
+    [Fact]
     public async Task Refuses_files_that_are_not_csv()
     {
         var response = await _client.PostAsync("/api/imports", CsvUpload("Tag\nPU-1001", "upload.xlsx"));
