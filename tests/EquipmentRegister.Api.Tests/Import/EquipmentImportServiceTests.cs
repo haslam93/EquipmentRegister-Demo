@@ -20,6 +20,7 @@ public class EquipmentImportServiceTests
             new DisciplineRule(),
             new NumericFieldsRule(),
             new StatusRule(),
+            new DescriptionLengthRule(),
         ];
         _service = new EquipmentImportService(rules, _repository);
     }
