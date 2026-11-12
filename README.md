@@ -34,6 +34,15 @@ In VS Code, **Tasks: Run Build Task** starts both. The API runs in Release and r
 code changes, so you and your agents can run `dotnet test` (a Debug build) while it is up. Open the
 Import page and try the files in `samples/`.
 
+### Import email notifications
+
+When an import completes, the API sends an email with the total, accepted, and rejected row counts
+through the configured SMTP server. Configure `Email__SmtpHost`, `Email__Sender`, and
+`Email__Recipient`; `Email__SmtpPort` defaults to `587` and `Email__EnableSsl` defaults to `true`.
+For servers that require authentication, provide `Email__UserName` and `Email__Password` through
+environment variables or another secret store. Do not commit credentials. If SMTP settings are
+missing or delivery fails, the import still completes and the API logs the notification problem.
+
 ## One repository, every Copilot surface
 
 Everything that shapes how Copilot works here is in the repository, so VS Code, Copilot CLI, the
